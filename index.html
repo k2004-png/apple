@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Lakshu 💖</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fff0f6;
+    color: #4b2e83;
+    text-align: center;
+    overflow: hidden;
+  }
+  .section {
+    display: none;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  .active {
+    display: flex;
+    opacity: 1;
+  }
+  button {
+    background-color: #fcb7c2;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+  #ballGame {
+    width: 90%;
+    height: 50vh;
+    background: #fff7fb;
+    border-radius: 15px;
+    border: 2px dashed #fcb7c2;
+    position: relative;
+  }
+  .ball {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f88fa3;
+    position: absolute;
+    transition: all 0.3s ease;
+  }
+  img {
+    width: 200px;
+    border-radius: 15px;
+  }
+  .flower {
+    position: fixed;
+    top: -50px;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 182, 193, 0.8);
+    border-radius: 50%;
+    animation: fall linear forwards;
+  }
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="section active" id="page1">
+  <h1>Hey Lakshu 😋</h1>
+  <p>Catch the button 😏</p>
+  <button id="funnyBtn">Catch me!</button>
+</div>
+
+<div class="section" id="page2">
+  <h2>Catch 5 hearts 💞</h2>
+  <div id="ballGame"></div>
+  <p id="score">Caught: 0/5</p>
+</div>
+
+<div class="section" id="page3">
+  <div id="letter" style="background:#fff7fb; border-radius:15px; padding:20px; width:70%; max-width:400px; cursor:pointer; border:2px dashed #fcb7c2;">
+    <h2>💌 Open Your Letter 💌</h2>
+    <p id="messageText" style="display:none;">I’m proud of you! Remember, you’re never alone 💖<br>This clumsy little guy’s always here to keep you company 🫶</p>
+  </div>
+</div>
+
+<div class="section" id="page4">
+  <h2>My World = You 💞</h2>
+  <img src="https://cdn.pixabay.com/photo/2016/11/29/02/12/woman-1867093_1280.jpg" alt="Lakshu">
+  <p>Every smile of yours lights up my world 💖</p>
+</div>
+
+<script>
+  const sections=document.querySelectorAll('.section');
+  const funnyBtn=document.getElementById('funnyBtn');
+  const gameBox=document.getElementById('ballGame');
+  const letter=document.getElementById('letter');
+  let score=0;
+  let currentPage=1;
+
+  function nextPage(n){
+    sections.forEach(s=>{
+      s.classList.remove('active');
+      s.style.opacity=0;
+    });
+    const next=document.getElementById('page'+n);
+    next.classList.add('active');
+    setTimeout(()=>next.style.opacity=1,100);
+  }
+
+  let moveCount=0;
+  funnyBtn.addEventListener('mouseover',()=>{
+    if(moveCount<3){
+      funnyBtn.style.position='absolute';
+      funnyBtn.style.left=Math.random()*70+'vw';
+      funnyBtn.style.top=Math.random()*70+'vh';
+      moveCount++;
+    }
+  });
+
+  funnyBtn.addEventListener('click',()=>{
+    nextPage(2);
+    startGame();
+  });
+
+  function startGame(){
+    score=0;
+    document.getElementById('score').innerText='Caught: 0/5';
+    gameBox.innerHTML='';
+    for(let i=0;i<5;i++){
+      const ball=document.createElement('div');
+      ball.classList.add('ball');
+      moveBall(ball);
+      ball.onclick=()=>{
+        ball.remove();
+        score++;
+        document.getElementById('score').innerText=`Caught: ${score}/5`;
+        if(score>=5)setTimeout(()=>nextPage(3),500);
+      }
+      gameBox.appendChild(ball);
+    }
+  }
+
+  function moveBall(ball){
+    setInterval(()=>{
+      ball.style.left=Math.random()*80+'%';
+      ball.style.top=Math.random()*80+'%';
+    },1800);
+  }
+
+  letter.addEventListener('click',()=>{
+    document.getElementById('messageText').style.display='block';
+    setTimeout(()=>nextPage(4),3000);
+  });
+
+  // Floating flowers for a few seconds
+  function createFlower(){
+    const flower=document.createElement('div');
+    flower.classList.add('flower');
+    flower.style.left=Math.random()*100+'vw';
+    flower.style.animationDuration=(5+Math.random()*5)+'s';
+    document.body.appendChild(flower);
+    setTimeout(()=>flower.remove(),10000);
+  }
+  for(let i=0;i<20;i++){
+    setTimeout(createFlower,Math.random()*5000);
+  }
+</script>
+</body>
+</html>
