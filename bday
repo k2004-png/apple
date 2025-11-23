@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* PAGE CONTAINER */
+    .page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      max-width: 450px;
+      padding: 40px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 25px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      animation: fadeIn 0.8s ease;
+    }
+    .active { display: flex; }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);} 
+      to {opacity: 1; transform: translateY(0);} 
+    }
+
+    h1, h2, h3, p { color: #fff; }
+
+    .btn {
+      padding: 12px 20px;
+      border-radius: 30px;
+      background: #fff;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+    .btn:hover { transform: scale(1.05); }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      border-radius: 12px;
+      padding: 12px;
+      border: none;
+      resize: none;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    #stars {
+      width: 100%;
+      height: 250px;
+      background: black;
+      border-radius: 12px;
+      margin-top: 15px;
+      position: relative;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <h1>Happy Birthday Mansi 🎉</h1>
+  <p>Mansi, today is your day — you deserve all the joy and love.</p>
+  <button class="btn" onclick="startConfetti()">Celebrate 🎂</button>
+  <button class="btn" onclick="nextPage()">Next ➜</button>
+</div>
+
+<!-- PAGE 2: Letter -->
+<div class="page" id="page2">
+  <h2>💗 A Letter for You</h2>
+  <p>You deserve every bit of happiness coming your way.</p>
+  <button class="btn" onclick="nextPage()">Next ➜</button>
+</div>
+
+<!-- PAGE 3: Questions with Writing Space -->
+<div class="page" id="page3">
+  <h2>💬 Birthday Questions</h2>
+  <p>Your happiest memory this year?</p>
+  <textarea placeholder="Write here..."></textarea>
+
+  <p style="margin-top:20px;">One dream you want to chase?</p>
+  <textarea placeholder="Write here..."></textarea>
+
+  <button class="btn" onclick="nextPage()">Next ➜</button>
+</div>
+
+<!-- PAGE 4: Starfield -->
+<div class="page" id="page4">
+  <h2>🌌 A Little Stargazing Moment</h2>
+  <p>Look at the stars and breathe for a moment.</p>
+  <div id="stars"></div>
+  <button class="btn" onclick="nextPage()">Next ➜</button>
+</div>
+
+<!-- PAGE 5: Final Message -->
+<div class="page" id="page5">
+  <h2>💬 Final Message</h2>
+  <p>You matter. You make the world better just by being in it.</p>
+  <p style="font-size:1.3rem; margin-top:20px;">🎉 Happy Birthday once again! 🎉</p>
+</div>
+
+<script>
+let currentPage = 1;
+function nextPage() {
+  document.getElementById("page" + currentPage).classList.remove("active");
+  currentPage++;
+  document.getElementById("page" + currentPage).classList.add("active");
+}
+
+function startConfetti() {
+  const confettiContainer = document.createElement('div');
+  confettiContainer.style.position = 'fixed';
+  confettiContainer.style.top = 0;
+  confettiContainer.style.left = 0;
+  confettiContainer.style.width = '100%';
+  confettiContainer.style.height = '100%';
+  confettiContainer.style.pointerEvents = 'none';
+  document.body.appendChild(confettiContainer);
+
+  for (let i = 0; i < 120; i++) {
+    let piece = document.createElement('div');
+    piece.style.width = '10px';
+    piece.style.height = '10px';
+    piece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+    piece.style.position = 'absolute';
+    piece.style.left = Math.random() * 100 + 'vw';
+    piece.style.animation = `fall 3s linear infinite`;
+    piece.style.animationDelay = Math.random() * 2 + 's';
+    confettiContainer.appendChild(piece);
+  }
+}
+
+// Stars
+function createStars() {
+  const stars = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    let s = document.createElement('div');
+    s.style.position = 'absolute';
+    s.style.width = '2px';
+    s.style.height = '2px';
+    s.style.background = 'white';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.left = Math.random() * 100 + '%';
+    stars.appendChild(s);
+  }
+}
+createStars();
+</script>
+
+<style>
+@keyframes fall {
+  0% { transform: translateY(-100vh) rotate(0); }
+  100% { transform: translateY(100vh) rotate(360deg); }
+}
+</style>
+
+</body>
+</html>
